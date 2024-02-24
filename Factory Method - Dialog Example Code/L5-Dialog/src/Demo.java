@@ -1,0 +1,41 @@
+import factory.Dialog;
+import factory.HtmlDialog;
+import factory.WindowsDialog;
+
+/**
+ * Demo class. Everything comes together here.
+ */
+public class Demo {
+    private static Dialog dialog;
+
+    public static void main(String[] args) {
+        configure();
+        runBusinessLogic();
+    }
+
+    /**
+     * The concrete factory is usually chosen depending on configuration or
+     * environment options.
+     */
+    static void configure() {
+        String OS = System.getProperty("os.name").toLowerCase();
+        //boolean IS_Win = (OS.indexOf("win") >= 0);
+        //if your os is mac, use IS_Mac instead of IS_Win
+        boolean isLinux = (OS.indexOf("linux") >= 0);
+        if (isLinux) {
+            // use WSL
+            dialog = new WindowsDialog();
+        } else {
+            dialog = new HtmlDialog();
+        }
+    }
+
+    /**
+     * All of the client code should work with factories and products through
+     * abstract interfaces. This way it does not care which factory it works
+     * with and what kind of product it returns.
+     */
+    static void runBusinessLogic() {
+        dialog.renderWindow();
+    }
+}
